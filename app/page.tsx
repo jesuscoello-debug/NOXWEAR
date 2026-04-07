@@ -10,11 +10,13 @@ type Product = {
   oldPrice?: number;
   category?: string;
   image: string;
+  images?: string[];
   description?: string;
 };
 
 type CartItem = Product & {
   qty: number;
+  size: string;
 };
 
 export default function Home() {
@@ -24,6 +26,10 @@ export default function Home() {
   const [category, setCategory] = useState("Todo");
   const [loading, setLoading] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedSize, setSelectedSize] = useState("M");
+  const [selectedImage, setSelectedImage] = useState("");
+
 
   useEffect(() => {
     const savedCart = localStorage.getItem("noxwear-cart");
@@ -59,15 +65,25 @@ useEffect(() => {
       return;
     }
 
-    const formattedProducts = (data || []).map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      price: Number(item.price),
-      oldPrice: item.old_price ? Number(item.old_price) : undefined,
-      category: item.category || "Producto",
-      image: item.image,
-      description: item.description || "Producto premium disponible en NOXWEAR.",
-    }));
+    const formattedProducts = (data || []).map((item: any) => {
+      const productImages =
+        Array.isArray(item.images) && item.images.length > 0
+          ? item.images.slice(0, 10)
+          : item.image
+            ? [item.image]
+            : [];
+
+      return {
+        id: item.id,
+        name: item.name,
+        price: Number(item.price),
+        oldPrice: item.old_price ? Number(item.old_price) : undefined,
+        category: item.category || "Producto",
+        image: productImages[0] || "",
+        images: productImages,
+        description: item.description || "Producto premium disponible en NOXWEAR.",
+      };
+    });
 
     console.log("FORMATTED:", formattedProducts);
 
@@ -81,35 +97,45 @@ useEffect(() => {
   const categories = ["Nuestra Colección"];
 
   const filteredProducts = useMemo(() => {
-    return (products || []).filter((product) => {
-      const productName = (product.name || "").toLowerCase();
-      const productCategory = (product.category || "").toLowerCase();
-      const searchValue = search.toLowerCase();
+  return (products || []).filter((product) => {
+    const productName = (product.name || "").toLowerCase();
+    const productCategory = (product.category || "").toLowerCase();
+    const searchValue = search.toLowerCase();
 
-      const matchesSearch =
-        productName.includes(searchValue) ||
-        productCategory.includes(searchValue);
+    const matchesSearch =
+      productName.includes(searchValue) ||
+      productCategory.includes(searchValue);
 
-      const matchesCategory =
-        category === "Todo" ? true : (product.category || "") === category;
+    const matchesCategory =
+      category === "Todo" ? true : (product.category || "") === category;
 
-      return matchesSearch && matchesCategory;
-    });
-  }, [products, search, category]);
+    return matchesSearch && matchesCategory;
+  });
+}, [products, search, category]);
 
-  const addToCart = (product: Product) => {
-    setCart((prev) => {
-      const found = prev.find((item) => item.id === product.id);
+const openProductModal = (product: Product) => {
+  setSelectedProduct(product);
+  setSelectedSize("M");
+  setSelectedImage(product.images?.[0] || product.image);
+};
 
-      if (found) {
-        return prev.map((item) =>
-          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
-        );
-      }
+const addToCart = (product: Product, size: string) => {
+  setCart((prev) => {
+    const found = prev.find(
+      (item) => item.id === product.id && item.size === size
+    );
 
-      return [...prev, { ...product, qty: 1 }];
-    });
-  };
+    if (found) {
+      return prev.map((item) =>
+        item.id === product.id && item.size === size
+          ? { ...item, qty: item.qty + 1 }
+          : item
+      );
+    }
+
+    return [...prev, { ...product, size, qty: 1 }];
+  });
+};
 
   const increaseQty = (id: number) => {
     setCart((prev) =>
@@ -332,7 +358,8 @@ Total: $${total.toFixed(2)}`
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-900 transition hover:-translate-y-1"
+                onClick={() => openProductModal(product)}
+                className="cursor-pointer overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-900 transition hover:-translate-y-1"
               >
                 <img
                   src={product.image}
@@ -361,7 +388,10 @@ Total: $${total.toFixed(2)}`
                   </div>
 
                   <button
-                    onClick={() => addToCart(product)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(product, "M");
+                    }}
                     className="mt-5 w-full rounded-full bg-white py-3 font-bold text-black transition hover:bg-neutral-200"
                   >
                     Agregar al carrito
