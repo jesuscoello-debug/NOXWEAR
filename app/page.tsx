@@ -190,7 +190,7 @@ Total: $${total.toFixed(2)}`
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 py-4">
           <div>
             <h1 className="text-2xl font-black tracking-[0.25em]">NOXWEAR</h1>
             <p className="text-[10px] uppercase tracking-[0.3em] text-white/40">
@@ -198,7 +198,7 @@ Total: $${total.toFixed(2)}`
             </p>
           </div>
 
-          <nav className="hidden gap-8 text-sm text-white/70 md:flex">
+          <nav className="hidden gap-6 text-sm text-white/70 md:flex lg:gap-8">
             <a href="#inicio" className="hover:text-white">Inicio</a>
             <a href="#catalogo" className="hover:text-white">Catalogo</a>
             <button onClick={() => setIsCartOpen(true)} className="hover:text-white">
@@ -217,23 +217,23 @@ Total: $${total.toFixed(2)}`
 
       <section
         id="inicio"
-        className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2 md:py-24"
+        className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:grid-cols-2 md:py-24"
       >
         <div className="flex flex-col justify-center">
           <div className="mb-4 inline-block rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/70">
             Nuevo drop disponible
           </div>
 
-          <h2 className="max-w-xl text-5xl font-black leading-tight md:text-7xl">
+          <h2 className="max-w-xl text-3xl sm:text-5xl lg:text-7xl font-black leading-tight">
             Viste como si ya fueras la marca.
           </h2>
 
-          <p className="mt-6 max-w-xl text-lg leading-8 text-white/65">
+          <p className="mt-6 max-w-xl text-sm sm:text-base lg:text-lg leading-7 sm:leading-8 text-white/65">
             Streetwear oscuro, elegante y premium. Piezas con estilo fuerte,
             cortes modernos y una vibra que se ve cara desde lejos.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <a
               href="#catalogo"
               className="rounded-full bg-white px-8 py-3 font-semibold text-black transition hover:bg-neutral-200"
@@ -258,12 +258,12 @@ Total: $${total.toFixed(2)}`
           <img
             src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=80"
             alt="Streetwear premium"
-            className="h-full min-h-[420px] w-full object-cover"
+            className="h-[300px] sm:h-[420px] lg:h-full w-full object-cover"
           />
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-10 md:grid-cols-3">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:px-8 pb-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         <div className="rounded-3xl border border-white/10 bg-zinc-900 p-6">
           <h3 className="text-lg font-bold">Diseno premium</h3>
           <p className="mt-2 text-white/60">
@@ -286,7 +286,7 @@ Total: $${total.toFixed(2)}`
         </div>
       </section>
 
-      <section id="catalogo" className="mx-auto max-w-7xl px-6 py-12">
+      <section id="catalogo" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-white/40">
@@ -300,7 +300,7 @@ Total: $${total.toFixed(2)}`
             placeholder="Buscar producto..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-full border border-white/10 bg-zinc-900 px-5 py-3 text-white outline-none placeholder:text-white/30 md:w-80"
+           className="w-full md:w-80 rounded-full border border-white/10 bg-zinc-900 px-5 py-3 text-sm sm:text-base text-white outline-none placeholder:text-white/30"
           />
         </div>
 
@@ -328,7 +328,7 @@ Total: $${total.toFixed(2)}`
             No se encontraron productos.
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
@@ -337,7 +337,7 @@ Total: $${total.toFixed(2)}`
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="h-80 w-full object-cover"
+                  className="h-64 sm:h-80 w-full object-cover"
                 />
 
                 <div className="p-5">
@@ -380,7 +380,7 @@ Total: $${total.toFixed(2)}`
             onClick={() => setIsCartOpen(false)}
           />
 
-          <aside className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-white/10 bg-zinc-950 shadow-2xl">
+          <aside className="fixed right-0 top-0 z-50 flex h-full w-full sm:max-w-md flex-col border-l border-white/10 bg-zinc-950 shadow-2xl">
             <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
               <div>
                 <h2 className="text-2xl font-black">Tu carrito 🛒</h2>
@@ -526,7 +526,7 @@ Total: $${total.toFixed(2)}`
         </p>
         <h2 className="mt-2 text-4xl font-black">Lo que dice la gente</h2>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
+        <div className="mt-8 grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           <div className="rounded-[2rem] border border-white/10 bg-zinc-900 p-6">
             <p className="text-lg font-bold">★★★★★</p>
             <p className="mt-3 text-white/65">
@@ -582,7 +582,7 @@ Total: $${total.toFixed(2)}`
         id="contacto"
         className="border-t border-white/10 bg-black/70"
       >
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 sm:px-6 lg:px-8 py-10 md:flex-row md:items-center md:justify-between">
           <div>
             <h3 className="text-2xl font-black tracking-[0.25em]">NOXWEAR</h3>
             <p className="mt-2 text-white/50">
