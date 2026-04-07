@@ -387,6 +387,7 @@ Total: $${total.toFixed(2)}`
                     )}
                   </div>
 
+                  {/* btn agregar al carrito no ocupar 
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -395,13 +396,124 @@ Total: $${total.toFixed(2)}`
                     className="mt-5 w-full rounded-full bg-white py-3 font-bold text-black transition hover:bg-neutral-200"
                   >
                     Agregar al carrito
-                  </button>
+                  </button>*/}
                 </div>
               </div>
             ))}
           </div>
         )}
       </section>
+
+              {selectedProduct && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/80"
+            onClick={() => setSelectedProduct(null)}
+          />
+
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+            <div className="relative w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950 shadow-2xl">
+              <button
+                onClick={() => setSelectedProduct(null)}
+                className="absolute right-4 top-4 z-10 rounded-full border border-white/15 bg-black/50 px-4 py-2 text-sm hover:bg-white/10"
+              >
+                Cerrar
+              </button>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="p-4 sm:p-6">
+                  <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-zinc-900">
+                    <img
+                      src={selectedImage || selectedProduct.image}
+                      alt={selectedProduct.name}
+                      className="h-[320px] sm:h-[420px] lg:h-[520px] w-full object-cover"
+                    />
+                  </div>
+
+                  {selectedProduct.images && selectedProduct.images.length > 1 && (
+                    <div className="mt-4 grid grid-cols-4 sm:grid-cols-5 gap-3">
+                      {selectedProduct.images.slice(0, 10).map((img, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedImage(img)}
+                          className={`overflow-hidden rounded-2xl border ${
+                            selectedImage === img
+                              ? "border-white"
+                              : "border-white/10"
+                          }`}
+                        >
+                          <img
+                            src={img}
+                            alt={`${selectedProduct.name} ${index + 1}`}
+                            className="h-20 w-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+                  <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+                    {selectedProduct.category || "Dropshipping"}
+                  </p>
+
+                  <h2 className="mt-2 text-3xl sm:text-4xl font-black">
+                    {selectedProduct.name}
+                  </h2>
+
+                  <p className="mt-4 text-white/65 leading-7">
+                    {selectedProduct.description || "Producto premium disponible en NOXWEAR."}
+                  </p>
+
+                  <div className="mt-5 flex items-center gap-3">
+                    <span className="text-3xl font-black">
+                      L.{selectedProduct.price.toFixed(2)}
+                    </span>
+                    {selectedProduct.oldPrice && (
+                      <span className="text-base text-white/30 line-through">
+                        L.{selectedProduct.oldPrice.toFixed(2)}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-8">
+                    <p className="mb-3 text-sm font-semibold text-white/70">
+                      Elige tu talla
+                    </p>
+
+                    <div className="flex flex-wrap gap-3">
+                      {["S", "M", "L", "XL"].map((size) => (
+                        <button
+                          key={size}
+                          onClick={() => setSelectedSize(size)}
+                          className={`rounded-full px-5 py-2 text-sm font-bold transition ${
+                            selectedSize === size
+                              ? "bg-white text-black"
+                              : "border border-white/15 bg-zinc-900 text-white hover:bg-white/10"
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      addToCart(selectedProduct, selectedSize);
+                      setSelectedProduct(null);
+                    }}
+                    className="mt-8 w-full rounded-full bg-white py-4 text-sm font-bold text-black transition hover:bg-neutral-200"
+                  >
+                    Agregar al carrito
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       {isCartOpen && (
         <>
