@@ -499,7 +499,7 @@ Total: $${total.toFixed(2)}`
                       ))}
                     </div>
                   </div>
-ante
+
                   <button
                     onClick={() => {
                       addToCart(selectedProduct, selectedSize);
