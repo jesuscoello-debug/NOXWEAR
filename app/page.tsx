@@ -135,6 +135,7 @@ const addToCart = (product: Product, size: string) => {
 
     return [...prev, { ...product, size, qty: 1 }];
   });
+    setIsCartOpen(true);
 };
 
   const increaseQty = (id: number) => {
@@ -498,7 +499,7 @@ Total: $${total.toFixed(2)}`
                       ))}
                     </div>
                   </div>
-
+ante
                   <button
                     onClick={() => {
                       addToCart(selectedProduct, selectedSize);
