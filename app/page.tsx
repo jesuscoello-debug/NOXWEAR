@@ -380,10 +380,10 @@ Total: $${total.toFixed(2)}`
                   </p>
 
                   <div className="mt-4 flex items-center gap-3">
-                    <span className="text-2xl font-black">${product.price}</span>
+                    <span className="text-2xl font-black">L.{product.price}</span>
                     {product.oldPrice && (
                       <span className="text-sm text-white/30 line-through">
-                        ${product.oldPrice}
+                        L.{product.oldPrice}
                       </span>
                     )}
                   </div>
@@ -556,7 +556,7 @@ Total: $${total.toFixed(2)}`
                           alt={item.name}
                           className="h-24 w-24 rounded-2xl object-cover"
                         />
-//precio en la pag.
+//precio en la
                         <div className="min-w-0 flex-1">
                           <p className="line-clamp-2 text-base font-bold">{item.name}</p>
                           <p className="mt-1 text-sm text-white/50">
