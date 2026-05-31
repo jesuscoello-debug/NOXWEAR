@@ -207,9 +207,9 @@ ${cart
         .map((item) => `- ${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}`)
         .join("\n")}
 
-Subtotal: L.${subtotal.toFixed(2)}
-Envio: L.${shipping.toFixed(2)}
-Total: L.${total.toFixed(2)}`
+Subtotal: $${subtotal.toFixed(2)}
+Envio: $${shipping.toFixed(2)}
+Total: $${total.toFixed(2)}`
   );
 
   const whatsappLink = `https://wa.me/50495635296?text=${whatsappMessage}`;
@@ -233,7 +233,7 @@ Total: L.${total.toFixed(2)}`
             </button>
             <a href="#contacto" className="hover:text-white">Contacto</a>
           </nav>
-//btn carrito para mobile con emoji 
+  //btn carrito para mobile con emoji
           <button
             onClick={() => setIsCartOpen(true)}
             className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:scale-105">
@@ -388,7 +388,7 @@ Total: L.${total.toFixed(2)}`
                     )}
                   </div>
 
-                  /*{/* btn agregar al carrito no ocupar 
+                  {/* btn agregar al carrito no ocupar 
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -556,7 +556,7 @@ Total: L.${total.toFixed(2)}`
                           alt={item.name}
                           className="h-24 w-24 rounded-2xl object-cover"
                         />
-
+//precio en la pag.
                         <div className="min-w-0 flex-1">
                           <p className="line-clamp-2 text-base font-bold">{item.name}</p>
                           <p className="mt-1 text-sm text-white/50">
