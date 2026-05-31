@@ -198,7 +198,7 @@ const addToCart = (product: Product, size: string) => {
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
   const shipping = cart.length > 0 ? 3.99 : 0;
   const total = subtotal + shipping;
-
+  //Mensaje de WhatsApp con el detalle del pedido o mensaje de informacion si el carrito esta vacio
   const whatsappMessage = encodeURIComponent(
     cart.length === 0
       ? "Hola, quiero informacion sobre NOXWEAR."
@@ -207,9 +207,9 @@ ${cart
         .map((item) => `- ${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}`)
         .join("\n")}
 
-Subtotal: $${subtotal.toFixed(2)}
-Envio: $${shipping.toFixed(2)}
-Total: $${total.toFixed(2)}`
+Subtotal: L.${subtotal.toFixed(2)}
+Envio: L.${shipping.toFixed(2)}
+Total: L.${total.toFixed(2)}`
   );
 
   const whatsappLink = `https://wa.me/50495635296?text=${whatsappMessage}`;
@@ -233,7 +233,7 @@ Total: $${total.toFixed(2)}`
             </button>
             <a href="#contacto" className="hover:text-white">Contacto</a>
           </nav>
-
+//btn carrito para mobile con emoji 
           <button
             onClick={() => setIsCartOpen(true)}
             className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:scale-105">
@@ -388,7 +388,7 @@ Total: $${total.toFixed(2)}`
                     )}
                   </div>
 
-                  {/* btn agregar al carrito no ocupar 
+                  /*{/* btn agregar al carrito no ocupar 
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
