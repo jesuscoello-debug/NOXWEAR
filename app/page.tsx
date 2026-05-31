@@ -193,23 +193,23 @@ const addToCart = (product: Product, size: string) => {
     setCart([]);
     localStorage.removeItem("noxwear-cart");
   };
-
+{/* Mensaje de WhatsApp con el detalle del pedido o mensaje de informacion si el carrito esta vacio */}
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
-  const shipping = cart.length > 0 ? 3.99 : 0;
+  const shipping = subtotal >= 1500 ? 0 : (cart.length > 0 ? 100 : 0);
   const total = subtotal + shipping;
-  //Mensaje de WhatsApp con el detalle del pedido o mensaje de informacion si el carrito esta vacio
+
   const whatsappMessage = encodeURIComponent(
     cart.length === 0
       ? "Hola, quiero informacion sobre NOXWEAR."
       : `Hola, quiero hacer este pedido:
 ${cart
-        .map((item) => `- ${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}`)
+        .map((item) => `- ${item.name} x${item.qty} = L.${(item.price * item.qty).toFixed(2)}`)
         .join("\n")}
 
-Subtotal: $${subtotal.toFixed(2)}
-Envio: $${shipping.toFixed(2)}
-Total: $${total.toFixed(2)}`
+Subtotal: L.${subtotal.toFixed(2)}
+Envio: L.${shipping.toFixed(2)}
+Total: L.${total.toFixed(2)}`
   );
 
   const whatsappLink = `https://wa.me/50495635296?text=${whatsappMessage}`;
@@ -233,7 +233,7 @@ Total: $${total.toFixed(2)}`
             </button>
             <a href="#contacto" className="hover:text-white">Contacto</a>
           </nav>
-  //btn carrito para mobile con emoji
+  {/* btn carrito para mobile con emoji */}
           <button
             onClick={() => setIsCartOpen(true)}
             className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:scale-105">
@@ -556,17 +556,17 @@ Total: $${total.toFixed(2)}`
                           alt={item.name}
                           className="h-24 w-24 rounded-2xl object-cover"
                         />
-//precio en la
+
                         <div className="min-w-0 flex-1">
                           <p className="line-clamp-2 text-base font-bold">{item.name}</p>
                           <p className="mt-1 text-sm text-white/50">
                             {item.category || "Dropshipping"}
                           </p>
                           <p className="mt-2 text-sm text-white/40">
-                            Precio: ${item.price.toFixed(2)}
+                            Precio: L.{item.price.toFixed(2)}
                           </p>
                           <p className="text-base font-semibold">
-                            Subtotal: ${(item.price * item.qty).toFixed(2)}
+                            Subtotal: L.{(item.price * item.qty).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -626,30 +626,28 @@ Total: $${total.toFixed(2)}`
                   <span>L.{total.toFixed(2)}</span>
                 </div>
               </div>
-
+          {/* Botón para enviar pedido por WhatsApp */}
               <button
-                onClick={async () => {
-                  try {
-                    await fetch("/api/whatsapp", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        cart: cart,
-                        total: total,
-                        customer: "Cliente web",
-                      }),
-                    });
+                onClick={() => {
+                  const productos = cart
+                    .map(
+                      (item) =>
+                        `• ${item.name} x${item.qty} - L.${item.price}`
+                    )
+                    .join("\n");
 
-                  } catch (error) {
-                    console.error("Error enviando pedido a WhatsApp:", error);
-                    alert("No se pudo enviar el pedido a WhatsApp");
-                  }
+                  const mensaje = encodeURIComponent(
+                    `🛒 Nuevo pedido NOXWEAR\n\n${productos}\n\n💰 Total: L.${total}`
+                  );
+
+                  window.open(
+                    `https://wa.me/50495635296?text=${mensaje}`,
+                    "_blank"
+                  );
                 }}
                 className="mt-4 block w-full rounded-full bg-white py-3 text-center text-sm font-bold text-black transition hover:bg-neutral-200"
               >
-                Pagar
+                Pedir Pedido
               </button>
 
               <button
