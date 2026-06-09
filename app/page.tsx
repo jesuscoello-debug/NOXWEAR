@@ -375,7 +375,15 @@ Total: L.${total.toFixed(2)}`
 
                   <h3 className="mt-2 text-2xl font-bold">{product.name}</h3>
 
-                  <p className="mt-2 text-white/60">
+
+                  <p
+                    style={{
+                      color: product.description?.toUpperCase().includes("AGOTADO")
+                        ? "red"
+                        : "#a1a1aa",
+                    }}
+                    className="mt-2 font-bold uppercase"
+                  >
                     {product.description || "Producto premium disponible en NOXWEAR."}
                   </p>
 
