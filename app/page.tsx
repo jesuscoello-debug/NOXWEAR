@@ -65,25 +65,16 @@ useEffect(() => {
       return;
     }
 
-    const formattedProducts = (data || []).map((item: any) => {
-      const productImages =
-        Array.isArray(item.images) && item.images.length > 0
-          ? item.images.slice(0, 10)
-          : item.image
-            ? [item.image]
-            : [];
-
-      return {
-        id: item.id,
-        name: item.name,
-        price: Number(item.price),
-        oldPrice: item.old_price ? Number(item.old_price) : undefined,
-        category: item.category || "Producto",
-        image: productImages[0] || "",
-        images: productImages,
-        description: item.description || "Producto premium disponible en NOXWEAR.",
-      };
-    });
+    const formattedProducts = data?.map((item: any) => ({
+  id: item.id,
+  name: item.name,
+  price: Number(item.price),
+  oldPrice: item.old_price ? Number(item.old_price) : undefined,
+  category: item.category || "Producto",
+  image: item.image || "",
+  images: item.image ? [item.image] : [],
+  description: item.description || "",
+})) || [];
 
     console.log("FORMATTED:", formattedProducts);
 
@@ -94,7 +85,12 @@ useEffect(() => {
   loadProducts();
 }, []);
 
-  const categories = ["Nuestra Colección"];
+  const categories = [
+  "Todo",
+  "Camisas",
+  "Zapatos",
+  "Creatina",
+];
 
   const filteredProducts = useMemo(() => {
   return (products || []).filter((product) => {
@@ -107,7 +103,9 @@ useEffect(() => {
       productCategory.includes(searchValue);
 
     const matchesCategory =
-      category === "Todo" ? true : (product.category || "") === category;
+    category === "Todo"
+    ? true
+    : (product.category || "").toLowerCase() === category.toLowerCase();
 
     return matchesSearch && matchesCategory;
   });
